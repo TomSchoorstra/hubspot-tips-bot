@@ -28,7 +28,6 @@ function formatTipMessage(tip: Tip): string {
   const meta: string[] = []
   if (tip.object) meta.push(`🏷️ *Object:* ${formatLabel(tip.object)}`)
   if (tip.difficulty) meta.push(`📊 *Niveau:* ${formatLabel(tip.difficulty)}`)
-  if (tip.hubspot_edition) meta.push(`🔑 *Editie:* ${formatLabel(tip.hubspot_edition)}`)
   if (tip.tip_type) meta.push(`⚡ *Type:* ${formatLabel(tip.tip_type)}`)
 
   if (meta.length > 0) {
