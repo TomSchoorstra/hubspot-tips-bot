@@ -8,7 +8,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
 
   const params = new URLSearchParams({
     client_id: process.env.SLACK_CLIENT_ID!,
-    scope: 'chat:write,incoming-webhook',
+    scope: 'chat:write,incoming-webhook,channels:join',
     redirect_uri: redirectUri,
     state,
   })

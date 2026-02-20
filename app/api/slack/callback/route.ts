@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { exchangeCodeForToken } from '@/lib/slack'
+import { exchangeCodeForToken, joinChannel } from '@/lib/slack'
 import { supabase } from '@/lib/supabase'
 
 export async function GET(request: NextRequest): Promise<NextResponse> {
@@ -46,6 +46,8 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
       console.error('Supabase upsert mislukt:', error)
       return NextResponse.redirect(`${origin}/?error=true`)
     }
+
+    await joinChannel(data.access_token, data.incoming_webhook.channel_id)
 
     const response = NextResponse.redirect(`${origin}/?success=true`)
     response.cookies.delete('slack_oauth_state')

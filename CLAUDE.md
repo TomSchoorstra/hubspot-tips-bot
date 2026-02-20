@@ -88,7 +88,7 @@ CRON_SECRET=
 - [x] API keys in .env.local gezet
 - [x] Supabase client installeren en lib/supabase.ts bouwen
 - [x] Slack OAuth flow bouwen (oauth + callback routes)
-- [ ] Cron job bouwen (send-tips route)
-- [ ] vercel.json configureren
-- [ ] Deployen op Vercel
-- [ ] Testen met eigen workspace
+- [x] Cron job bouwen (send-tips route)
+- [x] vercel.json configureren
+- [x] Deployen op Vercel
+- [x] Testen met eigen workspace

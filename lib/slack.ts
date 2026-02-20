@@ -37,6 +37,26 @@ export async function sendMessage(
   }
 }
 
+export async function joinChannel(
+  accessToken: string,
+  channelId: string
+): Promise<void> {
+  const response = await fetch('https://slack.com/api/conversations.join', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${accessToken}`,
+    },
+    body: JSON.stringify({ channel: channelId }),
+  })
+
+  const data = await response.json() as { ok: boolean; error?: string }
+
+  if (!data.ok) {
+    throw new Error(`Slack joinChannel failed: ${data.error}`)
+  }
+}
+
 export async function exchangeCodeForToken(code: string, redirectUri: string): Promise<SlackOAuthResponse> {
   const clientId = process.env.SLACK_CLIENT_ID
   const clientSecret = process.env.SLACK_CLIENT_SECRET
