@@ -12,6 +12,31 @@ interface Installation {
 
 interface Tip {
   tip: string
+  object: string | null
+  difficulty: string | null
+  hubspot_edition: string | null
+  tip_type: string | null
+}
+
+function formatLabel(value: string): string {
+  return value.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())
+}
+
+function formatTipMessage(tip: Tip): string {
+  const lines: string[] = ['💡 *HubSpot Tip van de Week*', '', tip.tip]
+
+  const meta: string[] = []
+  if (tip.object) meta.push(`🏷️ *Object:* ${formatLabel(tip.object)}`)
+  if (tip.difficulty) meta.push(`📊 *Niveau:* ${formatLabel(tip.difficulty)}`)
+  if (tip.hubspot_edition) meta.push(`🔑 *Editie:* ${formatLabel(tip.hubspot_edition)}`)
+  if (tip.tip_type) meta.push(`⚡ *Type:* ${formatLabel(tip.tip_type)}`)
+
+  if (meta.length > 0) {
+    lines.push('')
+    lines.push(...meta)
+  }
+
+  return lines.join('\n')
 }
 
 export async function GET(request: NextRequest): Promise<NextResponse> {
@@ -33,7 +58,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
 
   const { data: tips, error: tipsError } = await supabase
     .from('tips')
-    .select('tip')
+    .select('tip, object, difficulty, hubspot_edition, tip_type')
     .eq('is_active', true)
     .order('created_at', { ascending: true })
     .returns<Tip[]>()
@@ -54,7 +79,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
     try {
       const tip = tips[installation.tip_index % tips.length]
 
-      await sendMessage(installation.access_token, installation.channel_id, tip.tip)
+      await sendMessage(installation.access_token, installation.channel_id, formatTipMessage(tip))
 
       const { error: updateError } = await supabase
         .from('installations')

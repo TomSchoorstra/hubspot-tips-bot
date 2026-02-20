@@ -39,6 +39,10 @@ Bevat alle HubSpot tips die verstuurd worden.
 - id (uuid)
 - tip (text) — de inhoud van de tip
 - category (text) — bijv. Sales, Marketing
+- object (text) — contact/company/deal/ticket/all
+- difficulty (text) — easy/moderate/expert
+- hubspot_edition (text) — starter/professional/enterprise/all
+- tip_type (text) — productivity/automation/reporting/best_practice
 - is_active (boolean, default true)
 - created_at (timestamp)
 
